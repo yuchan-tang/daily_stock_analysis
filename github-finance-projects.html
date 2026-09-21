@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 理财高星项目盘点 · 2026-09</title>
+<style>
+  :root {
+    --green: #0e7a5f;
+    --green-dark: #0a5c48;
+    --bg: #f4f7f5;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #6b7684;
+    --border: #e3e8e5;
+    --gold: #d4a017;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #0a5c48 0%, #0e7a5f 55%, #14916f 100%);
+    color: #fff; padding: 44px 24px 36px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header h1 { font-size: 28px; font-weight: 700; letter-spacing: .5px; }
+  header p.sub { margin-top: 10px; opacity: .92; font-size: 14.5px; max-width: 860px; }
+  header p.meta { margin-top: 14px; font-size: 12.5px; opacity: .75; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border); padding: 10px 24px;
+  }
+  .toolbar .wrap { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+  .pill {
+    border: 1px solid var(--border); background: #fff; color: var(--muted);
+    border-radius: 999px; padding: 5px 14px; font-size: 13px; cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--green); color: var(--green); }
+  .pill.active { background: var(--green); border-color: var(--green); color: #fff; }
+  .search, .sortsel {
+    border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px;
+    font-size: 13px; outline: none; background: #fff; color: var(--text);
+  }
+  .search:focus, .sortsel:focus { border-color: var(--green); }
+  .search { width: 200px; }
+
+  main { padding: 28px 24px 10px; }
+  .section-title {
+    display: flex; align-items: baseline; gap: 10px; margin: 30px 0 16px;
+  }
+  .section-title:first-child { margin-top: 6px; }
+  .section-title h2 { font-size: 19px; color: var(--green-dark); }
+  .section-title span { font-size: 12.5px; color: var(--muted); }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 18px 14px; display: flex; flex-direction: column; gap: 9px;
+    transition: box-shadow .18s, transform .18s, border-color .18s;
+  }
+  .card:hover { box-shadow: 0 8px 22px rgba(10,92,72,.10); transform: translateY(-2px); border-color: #c8d6d0; }
+  .card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card .name { font-size: 15.5px; font-weight: 650; }
+  .card .name a { color: var(--text); text-decoration: none; }
+  .card .name a:hover { color: var(--green); }
+  .card .name .full { color: var(--muted); font-weight: 400; font-size: 12px; display: block; margin-top: 1px; }
+  .stars { color: var(--gold); font-weight: 700; font-size: 14px; white-space: nowrap; }
+  .stars small { color: var(--muted); font-weight: 400; font-size: 11px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: 12px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #f0f4f2; border-radius: 6px; padding: 2px 8px; color: #45505c;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .badge { border-radius: 6px; padding: 2px 8px; font-size: 11.5px; font-weight: 600; }
+  .b-active { background: #e3f4ec; color: #0e7a5f; }
+  .b-slow   { background: #fdf3dd; color: #9a6b00; }
+  .b-stale  { background: #fdeadd; color: #b3540c; }
+  .b-arch   { background: #fde5e5; color: #b3323d; }
+  .desc { font-size: 13.2px; color: #3b4550; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .tag { font-size: 11.5px; color: var(--green-dark); background: #eaf4f0; border-radius: 5px; padding: 2px 8px; }
+
+  .empty { text-align: center; color: var(--muted); padding: 60px 0; font-size: 14px; }
+  footer {
+    margin-top: 44px; border-top: 1px solid var(--border);
+    padding: 22px 24px 34px; color: var(--muted); font-size: 12.5px; background: #eef2f0;
+  }
+  footer .wrap p + p { margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>💰 GitHub 理财高星项目盘点</h1>
+    <p class="sub">围绕「个人理财」整理的 40 个热门开源项目：AI 智能投研、量化交易框架、行情数据接口、股票分析盯盘工具、个人记账应用与学习资源，按 Star 数与类别归类，方便按需选型。</p>
+    <p class="meta">数据来源：GitHub API 实时抓取 · Star 数为 2026-09-21 快照 · 本页为纯静态单文件，可直接本地打开</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="pills" id="pills"></div>
+    <select class="sortsel" id="sortsel">
+      <option value="cat">按分类</option>
+      <option value="stars">按 Star 降序</option>
+      <option value="update">按最近更新</option>
+    </select>
+    <input class="search" id="search" type="search" placeholder="搜索项目名 / 描述…">
+  </div>
+</div>
+
+<main><div class="wrap" id="content"></div></main>
+
+<footer>
+  <div class="wrap">
+    <p>⚠️ 免责声明：以上项目均为第三方开源软件，信息仅供参考与学习研究，不构成任何投资建议。量化与自动交易涉及真实资金风险，加密货币交易风险更高，请谨慎评估并在充分测试（模拟盘）后使用。</p>
+    <p>📌 提示：Star 数高 ≠ 适合你，选型时请同时关注「最近更新时间」「是否归档」「文档完整度」与「社区活跃度」。已停更的经典库（如 backtrader、zipline）仍有学习价值，但生产使用需谨慎。</p>
+  </div>
+</footer>
+
+<script>
+const CATS = [
+  { id: 'ai',     name: '🤖 AI 智能投研', desc: 'LLM / 多 Agent 驱动的新一代投研与盯盘工具' },
+  { id: 'quant',  name: '⚙️ 量化交易与回测框架', desc: '策略开发、回测、模拟与实盘引擎' },
+  { id: 'data',   name: '📊 行情与财经数据接口', desc: '免费获取股票 / 基金 / 期货 / 宏观数据' },
+  { id: 'tools',  name: '🔍 股票分析与盯盘工具', desc: '选股、指标分析、盯盘提醒与自动交易' },
+  { id: 'money',  name: '💰 个人理财与记账', desc: '净资产、预算、投资组合追踪与记账 App' },
+  { id: 'learn',  name: '📚 学习资源与清单', desc: '系统化学习量化与金融 ML 的资料合集' },
+];
+
+const LANG_COLOR = {
+  Python:'#3572A5', 'Jupyter Notebook':'#DA5B0B', TypeScript:'#3178c6', JavaScript:'#f1e05a',
+  Ruby:'#701516', Go:'#00ADD8', PHP:'#4F5D95', 'C#':'#178600', 'C++':'#f34b7d',
+  Java:'#b07219', Dart:'#00B4AB', HTML:'#e34c26', Rust:'#dea584', null:'#9aa4ae',
+};
+
+// status: active=活跃维护 / slow=更新较少 / stale=已停更 / arch=已归档
+const P = [
+  // ---------- AI 智能投研 ----------
+  { cat:'ai', name:'daily_stock_analysis', full:'ZhuLinsen/daily_stock_analysis', url:'https://github.com/ZhuLinsen/daily_stock_analysis', stars:65396, lang:'Python', upd:'2026-09-19', status:'active',
+    desc:'LLM 驱动的多市场（A股/港股/美股）股票智能分析系统：聚合多源行情与实时新闻，生成决策看板并自动推送，支持用 GitHub Actions 零成本定时运行，近年最火的散户投研项目。',
+    tags:['LLM 分析','每日推送','GitHub Actions'] },
+  { cat:'ai', name:'Qbot', full:'UFund-Me/Qbot', url:'https://github.com/UFund-Me/Qbot', stars:18530, lang:'Jupyter Notebook', upd:'2026-03-11', status:'active',
+    desc:'AI 自动量化交易机器人与量化投研平台，支持完全本地部署，把数据分析、因子挖掘、策略回测和机器人推送串成一条流水线。',
+    tags:['本地部署','投研平台'] },
+  { cat:'ai', name:'ai-berkshire', full:'xbtlin/ai-berkshire', url:'https://github.com/xbtlin/ai-berkshire', stars:16472, lang:'HTML', upd:'2026-09-20', status:'active',
+    desc:'「AI 时代的伯克希尔」：基于 Claude Code / Codex 的价值投资研究框架，内置巴菲特、芒格、段永平、李录四位大师的方法论，多 Agent 并行研究个股。',
+    tags:['价值投资','多 Agent','Claude Code'] },
+  { cat:'ai', name:'valuecell', full:'ValueCell-ai/valuecell', url:'https://github.com/ValueCell-ai/valuecell', stars:11010, lang:'Python', upd:'2026-03-09', status:'active',
+    desc:'社区驱动的多 Agent 金融应用平台，可在其上构建自己的投研与分析工作流。',
+    tags:['多 Agent','可扩展'] },
+  { cat:'ai', name:'go-stock', full:'ArvinLovegood/go-stock', url:'https://github.com/ArvinLovegood/go-stock', stars:7573, lang:'Go', upd:'2026-09-20', status:'active',
+    desc:'AI 赋能的桌面端股票分析/选股工具（Wails 开发）：实时行情、AI 热点资讯与资金/财务分析、涨跌报警推送，支持 A股、港股、美股及个股情绪分析。',
+    tags:['桌面客户端','A股/港美股','报警推送'] },
+
+  // ---------- 量化交易与回测框架 ----------
+  { cat:'quant', name:'freqtrade', full:'freqtrade/freqtrade', url:'https://github.com/freqtrade/freqtrade', stars:54621, lang:'Python', upd:'2026-09-21', status:'active',
+    desc:'最流行的免费开源加密货币交易机器人：策略回测、模拟盘、实盘、Telegram 远程控制、机器学习策略（FreqAI），支持多交易所。',
+    tags:['加密货币','实盘机器人','Telegram'] },
+  { cat:'quant', name:'qlib', full:'microsoft/qlib', url:'https://github.com/microsoft/qlib', stars:48702, lang:'Python', upd:'2026-09-17', status:'active',
+    desc:'微软开源的 AI 量化投资平台：高性能数据存储、因子表达式引擎、ML/DL 模型训练与 AutoML、组合优化与回测一体化，AI for Quant 的事实标准。',
+    tags:['微软出品','AI/机器学习','因子工程'] },
+  { cat:'quant', name:'vnpy (VeighNa)', full:'vnpy/vnpy', url:'https://github.com/vnpy/vnpy', stars:45468, lang:'Python', upd:'2026-09-13', status:'active',
+    desc:'国内最流行的开源量化交易开发框架：事件驱动引擎 + 完整 GUI，对接大量国内外券商/期货柜台（CTP 等），覆盖股票、期货、期权、外汇、加密资产。',
+    tags:['事件驱动','国内柜台','GUI'] },
+  { cat:'quant', name:'backtrader', full:'mementum/backtrader', url:'https://github.com/mementum/backtrader', stars:23297, lang:'Python', upd:'2024-08-19', status:'slow',
+    desc:'经典的 Python 策略回测库：技术指标、多周期数据、 analyser 分析、经纪商撮合模拟，社区教程极多，入门回测的常见选择；官方更新已基本停滞。',
+    tags:['经典回测','教程丰富','更新缓慢'] },
+  { cat:'quant', name:'Lean', full:'QuantConnect/Lean', url:'https://github.com/QuantConnect/Lean', stars:21708, lang:'C#', upd:'2026-09-18', status:'active',
+    desc:'QuantConnect 平台背后的开源算法交易引擎，支持 Python 与 C# 双语言编写策略，覆盖股票、期货、外汇、加密等多资产多市场回测与实盘。',
+    tags:['多语言','多资产','引擎级'] },
+  { cat:'quant', name:'zipline', full:'quantopian/zipline', url:'https://github.com/quantopian/zipline', stars:20103, lang:'Python', upd:'2024-02-13', status:'stale',
+    desc:'Quantopian 出品的传奇回测库，事件驱动、pipelines 因子框架影响深远；公司 2020 年关闭后停止维护，社区续作 zipline-reloaded 可作替代。',
+    tags:['一代经典','已停更'] },
+  { cat:'quant', name:'abu 阿布量化', full:'bbfamily/abu', url:'https://github.com/bbfamily/abu', stars:18668, lang:'Python', upd:'2026-01-24', status:'slow',
+    desc:'阿布量化交易系统：支持股票、期权、期货、比特币，内置机器学习选股与全市场回测，配套《量化交易之路》系列书籍与教程，中文学习友好。',
+    tags:['中文教程','机器学习','多品种'] },
+  { cat:'quant', name:'QUANTAXIS', full:'yutiansut/QUANTAXIS', url:'https://github.com/yutiansut/QUANTAXIS', stars:11216, lang:'Python', upd:'2026-09-18', status:'active',
+    desc:'支持任务调度与分布式部署的股票/期货/期权一站式纯本地方案：数据落地、回测、模拟撮合、实盘交易、可视化与多账户管理全都有。',
+    tags:['分布式','全流程','纯本地'] },
+  { cat:'quant', name:'backtesting.py', full:'kernc/backtesting.py', url:'https://github.com/kernc/backtesting.py', stars:8979, lang:'Python', upd:'2026-08-05', status:'active',
+    desc:'轻量、API 简洁的单资产策略回测库：几行代码即可跑回测并生成交互式图表报告，适合快速验证想法与教学演示。',
+    tags:['轻量','交互报告','易上手'] },
+  { cat:'quant', name:'jesse', full:'jesse-ai/jesse', url:'https://github.com/jesse-ai/jesse', stars:8561, lang:'Python', upd:'2026-09-17', status:'active',
+    desc:'面向加密货币的高级交易机器人与回测框架：策略插件化、多时间框架、精确回测与实盘衔接，文档质量高。',
+    tags:['加密货币','文档优秀'] },
+  { cat:'quant', name:'rqalpha', full:'ricequant/rqalpha', url:'https://github.com/ricequant/rqalpha', stars:6783, lang:'Python', upd:'2026-09-18', status:'active',
+    desc:'RiceQuant 开源的、可扩展可替换的 Python 事件驱动回测与交易框架，兼容聚宽/优矿等平台的策略写法，适合从平台策略迁移到本地。',
+    tags:['事件驱动','事件兼容','模块可替换'] },
+  { cat:'quant', name:'zvt', full:'zvtvz/zvt', url:'https://github.com/zvtvz/zvt', stars:4310, lang:'Python', upd:'2026-07-01', status:'active',
+    desc:'模块化量化框架：把数据抓取、因子计算、选股、回测统一在一致的 schema 与 API 之下，代码整洁，适合做自己的投研底座。',
+    tags:['模块化','数据为核'] },
+
+  // ---------- 行情与财经数据接口 ----------
+  { cat:'data', name:'AKShare', full:'akfamily/akshare', url:'https://github.com/akfamily/akshare', stars:22670, lang:'Python', upd:'2026-09-20', status:'active',
+    desc:'优雅简洁的 Python 金融数据库：覆盖股票、期货、基金、债券、外汇、宏观等多品类，聚合东财/新浪等公开数据源，完全免费、无需 token、更新勤。',
+    tags:['全品类','免费无 token','更新勤'] },
+  { cat:'data', name:'Tushare', full:'waditu/tushare', url:'https://github.com/waditu/tushare', stars:15410, lang:'Python', upd:'2024-03-13', status:'slow',
+    desc:'经典的中国股票历史数据爬取工具；新版 TuShare Pro 已转为积分制数据平台（文档站维护），老接口开源仓库更新较少。',
+    tags:['老牌','积分制 Pro 版'] },
+  { cat:'data', name:'efinance', full:'Micro-sheep/efinance', url:'https://github.com/Micro-sheep/efinance', stars:4063, lang:'Python', upd:'2026-07-17', status:'active',
+    desc:'快速获取基金、股票、债券、期货行情数据的 Python 库（东方财富数据源），接口简单、秒级上手，是回测与量化的好帮手。',
+    tags:['东财数据','基金','简单易用'] },
+  { cat:'data', name:'qstock', full:'tkfy920/qstock', url:'https://github.com/tkfy920/qstock', stars:1940, lang:'Python', upd:'2025-03-16', status:'slow',
+    desc:'「Python 金融量化」公众号出品的个人量化投研包：数据获取、可视化、选股、回测一体化，中文文档友好。',
+    tags:['中文文档','一体化'] },
+
+  // ---------- 股票分析与盯盘工具 ----------
+  { cat:'tools', name:'FinceptTerminal', full:'Fincept-Corporation/FinceptTerminal', url:'https://github.com/Fincept-Corporation/FinceptTerminal', stars:31863, lang:'C++', upd:'2026-09-19', status:'active',
+    desc:'现代化开源金融终端：高级市场分析、投资组合管理、多市场数据与新闻聚合，桌面向 Bloomberg/TradingView 的替代品。',
+    tags:['金融终端','桌面端','组合管理'] },
+  { cat:'tools', name:'InStock (myhhub/stock)', full:'myhhub/stock', url:'https://github.com/myhhub/stock', stars:14495, lang:'Python', upd:'2026-04-02', status:'active',
+    desc:'股票全流程系统：获取数据、计算指标、筹码分布、形态识别、综合选股、策略回测到自动交易，支持 PC 与移动端访问，中文用户众多。',
+    tags:['选股','筹码分布','自动交易'] },
+  { cat:'tools', name:'easytrader', full:'shidenggui/easytrader', url:'https://github.com/shidenggui/easytrader', stars:10207, lang:'Python', upd:'2026-02-28', status:'slow',
+    desc:'对接同花顺客户端 / miniQMT / 雪球的股票自动下单工具，支持跟踪 joinquant、ricequant 的模拟交易组合自动跟单，实现本地策略到实盘的最后一公里。',
+    tags:['自动下单','同花顺','跟单'] },
+  { cat:'tools', name:'stock (Rockyzsu)', full:'Rockyzsu/stock', url:'https://github.com/Rockyzsu/stock', stars:8556, lang:'Python', upd:'2026-04-17', status:'active',
+    desc:'「30 天掌握量化交易」系列教程与代码合集，持续更新，从数据获取到策略构建循序渐进，非常适合入门练手。',
+    tags:['教程向','持续更新','入门友好'] },
+  { cat:'tools', name:'pythonstock', full:'pythonstock/stock', url:'https://github.com/pythonstock/stock', stars:7875, lang:'Python', upd:'2026-05-07', status:'active',
+    desc:'老牌 Python 股票系统：数据采集入库、指标计算、策略分析与 Web 展示一应俱全，适合自部署一套自己的行情分析后台。',
+    tags:['Web 后台','自部署','老牌'] },
+  { cat:'tools', name:'leek-fund 韭菜盒子', full:'LeekHub/leek-fund', url:'https://github.com/LeekHub/leek-fund', stars:3842, lang:'TypeScript', upd:'2026-06-30', status:'active',
+    desc:'程序员摸鱼神器：VS Code 插件，写代码时在状态栏后台实时盯盘，支持股价、基金、汇率、虚拟货币行情与涨跌提醒，兼容 VS Code 生态各编辑器。',
+    tags:['VS Code 插件','状态栏盯盘','摸鱼'] },
+
+  // ---------- 个人理财与记账 ----------
+  { cat:'money', name:'Maybe', full:'maybe-finance/maybe', url:'https://github.com/maybe-finance/maybe', stars:54277, lang:'Ruby', upd:'2025-07-24', status:'arch',
+    desc:'「面向所有人的个人理财应用」：净资产追踪、预算、投资组合与财务规划一体，界面精美。公司 2024 年关闭后将其开源引爆全网；仓库已于 2025-07 归档，可自托管研究，不再更新。',
+    tags:['净资产','已归档','可自托管'] },
+  { cat:'money', name:'Actual Budget', full:'actualbudget/actual', url:'https://github.com/actualbudget/actual', stars:29051, lang:'TypeScript', upd:'2026-09-20', status:'active',
+    desc:'local-first 的个人预算应用：信封预算法（YNAB 风格）、本地优先数据 + 可选自托管同步，社区极其活跃，是 Maybe 停更后最受欢迎的接棒者之一。',
+    tags:['信封预算','本地优先','自托管'] },
+  { cat:'money', name:'Firefly III', full:'firefly-iii/firefly-iii', url:'https://github.com/firefly-iii/firefly-iii', stars:24688, lang:'PHP', upd:'2026-09-21', status:'active',
+    desc:'老牌自托管个人财务管理器：复式记账、预算、报表、规则引擎与银行数据导入（CSV/OFX/Spectre），功能完善，适合有一定动手能力的用户。',
+    tags:['复式记账','自托管','老牌'] },
+  { cat:'money', name:'Ghostfolio', full:'ghostfolio/ghostfolio', url:'https://github.com/ghostfolio/ghostfolio', stars:9326, lang:'TypeScript', upd:'2026-09-20', status:'active',
+    desc:'开源财富管理软件：追踪股票、ETF、加密资产组合，分析分散化程度与资产负债配置，隐私友好，可自托管也有官方托管版。',
+    tags:['投资组合','隐私友好','自托管'] },
+  { cat:'money', name:'ezBookkeeping', full:'mayswind/ezbookkeeping', url:'https://github.com/mayswind/ezbookkeeping', stars:5625, lang:'Go', upd:'2026-09-19', status:'active',
+    desc:'轻量强大的自托管记账应用（国人开发）：单二进制部署、iOS/Android/Web 多客户端、多币种多账户，中文支持好，服务器要求极低。',
+    tags:['轻量','国人开发','多端'] },
+  { cat:'money', name:'Paisa', full:'ananthakumaran/paisa', url:'https://github.com/ananthakumaran/paisa', stars:3216, lang:'TypeScript', upd:'2026-09-06', status:'active',
+    desc:'基于 ledger 复式记账文件的现代界面个人财务管家，所有数据是纯文本、可版本管理，适合极客型用户。',
+    tags:['ledger','纯文本','极客向'] },
+  { cat:'money', name:'BeeCount', full:'TNT-Likely/BeeCount', url:'https://github.com/TNT-Likely/BeeCount', stars:2404, lang:'Dart', upd:'2026-09-13', status:'active',
+    desc:'本地优先的 iOS / Android / Web 记账应用：自托管云端同步，也支持 iCloud / WebDAV / S3 同步，数据自己掌控。',
+    tags:['移动端','本地优先','多同步渠道'] },
+  { cat:'money', name:'Cent', full:'glink25/Cent', url:'https://github.com/glink25/Cent', stars:1204, lang:'TypeScript', upd:'2026-09-01', status:'active',
+    desc:'完全免费开源的多人协作记账 Web App，适合情侣、室友、小组共同记账分摊。',
+    tags:['协作记账','Web','免费'] },
+  { cat:'money', name:'AutoAccounting', full:'AutoAccountingOrg/AutoAccounting', url:'https://github.com/AutoAccountingOrg/AutoAccounting', stars:919, lang:'Kotlin', upd:'2026-09-20', status:'active',
+    desc:'Android 自动记账：通过无障碍服务自动捕捉支付通知生成账单，开源可自建后端，省去手动记账的麻烦。',
+    tags:['Android','自动记账','无障碍'] },
+
+  // ---------- 学习资源与清单 ----------
+  { cat:'learn', name:'awesome-quant', full:'wilsonfreitas/awesome-quant', url:'https://github.com/wilsonfreitas/awesome-quant', stars:29673, lang:'HTML', upd:'2026-09-21', status:'active',
+    desc:'量化领域最权威的 awesome 清单：按语言/环节收录海量库、数据源、书籍与社区资源，选型前先翻它准没错。',
+    tags:['Awesome 清单','选型指南'] },
+  { cat:'learn', name:'machine-learning-for-trading', full:'stefan-jansen/machine-learning-for-trading', url:'https://github.com/stefan-jansen/machine-learning-for-trading', stars:20958, lang:'Jupyter Notebook', upd:'2026-09-21', status:'active',
+    desc:'《Machine Learning for Trading (3rd)》一书配套代码：从数据获取、特征工程到 ML/DL 模型与回测执行，金融 ML 系统学习首选。',
+    tags:['书籍代码','金融 ML','系统学习'] },
+  { cat:'learn', name:'awesome-systematic-trading', full:'paperswithbacktest/awesome-systematic-trading', url:'https://github.com/paperswithbacktest/awesome-systematic-trading', stars:14370, lang:'Python', upd:'2026-09-03', status:'active',
+    desc:'系统化/程序化交易资源大全：库、策略、论文、书籍、博客分门别类，含大量可回测复现的学术策略，深挖必备。',
+    tags:['系统化交易','论文策略'] },
+  { cat:'learn', name:'quant-trading', full:'je-suis-tm/quant-trading', url:'https://github.com/je-suis-tm/quant-trading', stars:10756, lang:'Python', upd:'2026-06-20', status:'active',
+    desc:'一套可运行的 Python 量化策略集合：VIX 计算器、形态识别、商品套利、配对交易等，每个策略配讲解，边读边跑学得快。',
+    tags:['策略集合','配讲解'] },
+];
+
+const STATUS_LABEL = { active:['活跃维护','b-active'], slow:['更新较少','b-slow'], stale:['已停更','b-stale'], arch:['已归档','b-arch'] };
+const fmt = n => n.toLocaleString('en-US');
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+let curCat = 'all';
+
+function cardHTML(p) {
+  const [sLabel, sCls] = STATUS_LABEL[p.status];
+  const color = LANG_COLOR[p.lang] || '#9aa4ae';
+  return `
+  <div class="card">
+    <div class="top">
+      <div class="name"><a href="${p.url}" target="_blank" rel="noopener">${esc(p.name)}</a>
+        <span class="full">${esc(p.full)}</span></div>
+      <div class="stars">★ ${fmt(p.stars)}<small> stars</small></div>
+    </div>
+    <div class="meta">
+      <span class="chip"><span class="dot" style="background:${color}"></span>${esc(p.lang || '—')}</span>
+      <span class="chip">更新 ${p.upd}</span>
+      <span class="badge ${sCls}">${sLabel}</span>
+    </div>
+    <div class="desc">${esc(p.desc)}</div>
+    <div class="tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+  </div>`;
+}
+
+function render() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const sort = document.getElementById('sortsel').value;
+  let list = P.filter(p => (curCat === 'all' || p.cat === curCat)
+    && (!q || (p.name + p.full + p.desc + p.tags.join(' ')).toLowerCase().includes(q)));
+
+  const content = document.getElementById('content');
+  if (!list.length) { content.innerHTML = '<div class="empty">没有匹配的项目，换个关键词试试～</div>'; return; }
+
+  if (sort === 'stars')  list.sort((a,b) => b.stars - a.stars);
+  if (sort === 'update') list.sort((a,b) => b.upd.localeCompare(a.upd));
+
+  if (sort === 'cat') {
+    let html = '';
+    for (const c of CATS) {
+      const items = list.filter(p => p.cat === c.id);
+      if (!items.length) continue;
+      html += `<div class="section-title"><h2>${c.name}</h2><span>${c.desc} · ${items.length} 个</span></div>
+               <div class="grid">${items.map(cardHTML).join('')}</div>`;
+    }
+    content.innerHTML = html;
+  } else {
+    const label = sort === 'stars' ? '按 Star 数排序' : '按最近更新排序';
+    content.innerHTML = `<div class="section-title"><h2>${label}</h2><span>共 ${list.length} 个</span></div>
+                         <div class="grid">${list.map(cardHTML).join('')}</div>`;
+  }
+}
+
+// pills
+const pillsEl = document.getElementById('pills');
+pillsEl.innerHTML = `<button class="pill active" data-cat="all">全部（${P.length}）</button>`
+  + CATS.map(c => `<button class="pill" data-cat="${c.id}">${c.name}</button>`).join('');
+pillsEl.addEventListener('click', e => {
+  const btn = e.target.closest('.pill'); if (!btn) return;
+  curCat = btn.dataset.cat;
+  pillsEl.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b === btn));
+  render();
+});
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('sortsel').addEventListener('change', render);
+render();
+</script>
+</body>
+</html>
